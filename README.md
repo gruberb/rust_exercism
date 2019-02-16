@@ -1,2 +1,2 @@
 # rust_exercism
-Rust xercism track 
+Rust exercism track 
