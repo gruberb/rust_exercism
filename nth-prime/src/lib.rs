@@ -1,13 +1,15 @@
 pub fn nth(n: u32) -> u32 {
-    let mut vec: Vec<_> = (2...limit).collect();
+    let mut prime_numbers = Vec::with_capacity(n as usize);
+    let mut i = 1u32;
     
-    if n == 0 {
-        return 2 
+    while prime_numbers.len() <= n as usize {
+        i+=1;
+        if prime_numbers.iter().any(|&prime| i % prime == 0) {
+            continue;
+        }
+        
+        prime_numbers.push(i);
     }
-
-    for p in 2..n {
-        vec.retain(|&x| x <= p || x % p != 0);
-    }
-    println!("{:?}", vec);
-    vec
+    
+    prime_numbers.pop().unwrap()
 }
