@@ -10,10 +10,8 @@ pub fn brackets_are_balanced(string: &str) -> bool {
             break;
         }
         
-        println!("{:?} contains {}", open, string);
         if open.contains(&x.to_string()) {
             stack.push(x.to_string());
-            println!("current stack: {:?}", stack); 
         }
 
         if close.contains(&x.to_string()) {
