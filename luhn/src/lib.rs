@@ -1,15 +1,22 @@
-/// Check a Luhn checksum.
 pub fn is_valid(code: &str) -> bool {
-    let mut vec: Vec<i32> = Vec::new();
-    if code.len() > 1 {
-        for x in code.chars() {
-            vec.push(x.parse().unwrap());
-        }
-
-        for x in vec.iter().step_by(2) {
-
-        }
-    } else {
-        false
+    if code.len() < 2 {
+        return false;
     }
+    let mut sum = 0;
+    let mut valid_chars = 0;
+    for (index, c) in code.chars().rev().filter(|c| c != &' ').enumerate() {
+        match c.to_digit(10) {
+            Some(d) => {
+                valid_chars += 1;
+                if index % 2 == 1 {
+                    let d2 = d * 2;
+                    sum += if d2 > 9 { d2 - 9 } else { d2 };
+                } else {
+                    sum += d;
+                }
+            }
+            None => return false,
+        }
+    }
+    valid_chars > 1 && sum % 10 == 0
 }
