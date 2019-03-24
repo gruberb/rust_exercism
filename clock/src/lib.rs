@@ -19,21 +19,21 @@ impl PartialEq for Clock {
     }
 }
 
+fn modulus(a: i32, b: i32) -> i32 {
+    ((a % b) + b) % b
+}
+
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
-        let hours = minutes + (hours * 60);
-        let hours: f32 = hours as f32 / 60.0;
-        let minutes = hours.fract() * 60.0;
-        let minutes  = minutes.round() as i32;
-        let hours: i32 = hours as i32 % 24;
+        let m = modulus(minutes, 60);
+        let carry_hours = (minutes - m) / 60;
 
-        Clock {
-            minutes,
-            hours,
-        }
+        let h = modulus(hours + carry_hours, 24);
+
+        Clock { hours: h, minutes: m }
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        unimplemented!("Add {} minutes to existing Clock time", minutes);
+        Clock::new(self.hours, self.minutes + minutes)
     }
 }
